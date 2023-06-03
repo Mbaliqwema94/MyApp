@@ -1,11 +1,23 @@
 const Pool = require('pg').Pool
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'api',
-  password: 'Letsdoit!',
-  port: 5433,
-})
+
+const connectDB = async() => {
+  try {
+    const pool = new Pool({
+      user: 'postgres',
+      host: 'localhost',
+      database: 'api',
+      password: 'Letsdoit!',
+      port: 5433,
+    })
+    await pool.connect()
+    console.log('connected to database')
+
+  }
+  catch(err) {
+    console.log(err.message)
+  }
+}
+connectDB()
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
     if (error) {
